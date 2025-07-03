@@ -6,7 +6,7 @@ const getApiUrl = () => {
   }
   
   // Production mode - use Render URL
-  return process.env.REACT_APP_RENDER_API_URL || 'https://your-vocabulary-app.onrender.com/api';
+  return process.env.REACT_APP_RENDER_API_URL || 'https://dictovo-server.onrender.com/api';
 };
 
 export const API_CONFIG = {
