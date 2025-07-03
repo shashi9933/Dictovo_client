@@ -215,6 +215,36 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* New Card: Time Spent Learning */}
+        <div className="card">
+          <div className="card-body">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <Clock className="h-8 w-8 text-blue-400" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Time Spent Learning</p>
+                <p className="text-2xl font-bold text-gray-900">--:--</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* New Card: Progress Chart */}
+        <div className="card">
+          <div className="card-body">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <BarChart3 className="h-8 w-8 text-indigo-400" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm font-medium text-gray-500">Progress Chart</p>
+                <p className="text-2xl font-bold text-gray-900">Coming Soon</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Quick Actions */}
