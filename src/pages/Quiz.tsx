@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { 
   Play, 
@@ -95,7 +95,7 @@ const Quiz: React.FC = () => {
     }
   );
 
-  const handleFinishQuiz = () => {
+  const handleFinishQuiz = useCallback(() => {
     setTimerActive(false);
     if (!quizData) return;
 
@@ -111,7 +111,7 @@ const Quiz: React.FC = () => {
     setQuizResults(results);
     submitResultsMutation.mutate(results);
     setShowResults(true);
-  };
+  }, [quizData, selectedAnswers, submitResultsMutation]);
 
   // Timer effect
   useEffect(() => {

@@ -9,7 +9,6 @@ import {
   LogOut, 
   BarChart3,
   Home,
-  Search,
   Target
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
