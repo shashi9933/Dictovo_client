@@ -15,7 +15,6 @@ import {
   Save,
   Loader2,
   CheckCircle,
-  AlertCircle,
   Search,
   CheckSquare,
   Square,
@@ -57,7 +56,6 @@ const AddWord: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
-  const method = searchParams.get('method');
   const editId = searchParams.get('edit');
 
   const [inputMethod, setInputMethod] = useState<'manual' | 'text' | 'pdf' | 'image' | 'voice'>('manual');
@@ -76,7 +74,6 @@ const AddWord: React.FC = () => {
     setValue,
     watch,
     formState: { errors },
-    reset
   } = useForm<AddWordFormData>({
     resolver: zodResolver(addWordSchema),
     defaultValues: {
@@ -88,7 +85,6 @@ const AddWord: React.FC = () => {
   });
 
   const watchedWord = watch('word');
-  const watchedExample = watch('example');
 
   // Auto-fetch word details when word changes
   useEffect(() => {
@@ -345,15 +341,6 @@ const AddWord: React.FC = () => {
     if (difficultyFilter === 'all') return true;
     return word.difficulty === difficultyFilter;
   });
-
-  const addExample = () => {
-    const currentExamples = watch('example');
-    setValue('example', '');
-  };
-
-  const removeExample = () => {
-    setValue('example', '');
-  };
 
   const addSynonym = () => {
     const currentSynonyms = watch('synonyms');

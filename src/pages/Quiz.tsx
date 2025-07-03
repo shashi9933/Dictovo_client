@@ -111,7 +111,7 @@ const Quiz: React.FC = () => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [timerActive, timeLeft]);
+  }, [timerActive, timeLeft, handleFinishQuiz]);
 
   const startQuiz = async () => {
     try {
