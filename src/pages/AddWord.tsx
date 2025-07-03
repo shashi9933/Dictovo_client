@@ -67,6 +67,8 @@ const AddWord: React.FC = () => {
   const [textInput, setTextInput] = useState('');
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all');
   const [isBulkAdding, setIsBulkAdding] = useState(false);
+  const [hindiMeaning, setHindiMeaning] = useState('');
+  const [hindiPronunciation, setHindiPronunciation] = useState('');
 
   const {
     register,
@@ -119,6 +121,32 @@ const AddWord: React.FC = () => {
     const timeoutId = setTimeout(fetchWordDetails, 1000);
     return () => clearTimeout(timeoutId);
   }, [watchedWord, setValue]);
+
+  // Auto-fetch Hindi meaning and pronunciation when meaning changes
+  useEffect(() => {
+    const fetchHindiMeaning = async () => {
+      const meaning = watch('meaning');
+      if (meaning && meaning.trim().length > 0) {
+        try {
+          // Use Google Translate API or LibreTranslate for demo
+          const res = await axios.post('https://libretranslate.de/translate', {
+            q: meaning,
+            source: 'en',
+            target: 'hi',
+            format: 'text'
+          });
+          setHindiMeaning(res.data.translatedText);
+        } catch (e) {
+          setHindiMeaning('');
+        }
+      } else {
+        setHindiMeaning('');
+      }
+    };
+    // Debounce
+    const timeoutId = setTimeout(fetchHindiMeaning, 800);
+    return () => clearTimeout(timeoutId);
+  }, [watch('meaning')]);
 
   // Create vocabulary entry
   const createMutation = useMutation(
@@ -777,18 +805,14 @@ const AddWord: React.FC = () => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Meaning *
-              </label>
-              <textarea
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700">Meaning (English)</label>
+              <input
                 {...register('meaning')}
-                className="input h-20 resize-none"
-                placeholder="Enter the meaning"
+                className="input"
               />
-              {errors.meaning && (
-                <p className="mt-1 text-sm text-red-600">{errors.meaning.message}</p>
-              )}
+              <label className="block text-sm font-medium text-gray-700 mt-2">Meaning (Hindi, auto-translated)</label>
+              <input value={hindiMeaning} readOnly className="input input-bordered w-full bg-gray-100" />
             </div>
 
             {/* Pronunciation */}
