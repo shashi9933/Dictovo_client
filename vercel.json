@@ -36,6 +36,6 @@
     }
   ],
   "env": {
-    "REACT_APP_RENDER_API_URL": "@react_app_render_api_url"
+    "REACT_APP_RENDER_API_URL": "https://dictovo-server.onrender.com/api"
   }
 } 
