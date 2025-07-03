@@ -68,7 +68,6 @@ const AddWord: React.FC = () => {
   const [difficultyFilter, setDifficultyFilter] = useState<string>('all');
   const [isBulkAdding, setIsBulkAdding] = useState(false);
   const [hindiMeaning, setHindiMeaning] = useState('');
-  const [hindiPronunciation, setHindiPronunciation] = useState('');
 
   const {
     register,
@@ -87,6 +86,7 @@ const AddWord: React.FC = () => {
   });
 
   const watchedWord = watch('word');
+  const watchedMeaning = watch('meaning');
 
   // Auto-fetch word details when word changes
   useEffect(() => {
@@ -122,15 +122,13 @@ const AddWord: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [watchedWord, setValue]);
 
-  // Auto-fetch Hindi meaning and pronunciation when meaning changes
+  // Auto-fetch Hindi meaning when meaning changes
   useEffect(() => {
     const fetchHindiMeaning = async () => {
-      const meaning = watch('meaning');
-      if (meaning && meaning.trim().length > 0) {
+      if (watchedMeaning && watchedMeaning.trim().length > 0) {
         try {
-          // Use Google Translate API or LibreTranslate for demo
           const res = await axios.post('https://libretranslate.de/translate', {
-            q: meaning,
+            q: watchedMeaning,
             source: 'en',
             target: 'hi',
             format: 'text'
@@ -143,10 +141,9 @@ const AddWord: React.FC = () => {
         setHindiMeaning('');
       }
     };
-    // Debounce
     const timeoutId = setTimeout(fetchHindiMeaning, 800);
     return () => clearTimeout(timeoutId);
-  }, [watch('meaning')]);
+  }, [watchedMeaning, watch]);
 
   // Create vocabulary entry
   const createMutation = useMutation(
