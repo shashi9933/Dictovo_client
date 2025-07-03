@@ -95,6 +95,24 @@ const Quiz: React.FC = () => {
     }
   );
 
+  const handleFinishQuiz = () => {
+    setTimerActive(false);
+    if (!quizData) return;
+
+    const results: QuizResult[] = quizData.questions.map(question => ({
+      wordId: question.wordId,
+      selectedAnswer: selectedAnswers[question.wordId] || '',
+      correct: selectedAnswers[question.wordId] === question.correctAnswer,
+      correctAnswer: question.correctAnswer,
+      word: question.word,
+      question: question.question
+    }));
+
+    setQuizResults(results);
+    submitResultsMutation.mutate(results);
+    setShowResults(true);
+  };
+
   // Timer effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -153,24 +171,6 @@ const Quiz: React.FC = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
     }
-  };
-
-  const handleFinishQuiz = () => {
-    setTimerActive(false);
-    if (!quizData) return;
-
-    const results: QuizResult[] = quizData.questions.map(question => ({
-      wordId: question.wordId,
-      selectedAnswer: selectedAnswers[question.wordId] || '',
-      correct: selectedAnswers[question.wordId] === question.correctAnswer,
-      correctAnswer: question.correctAnswer,
-      word: question.word,
-      question: question.question
-    }));
-
-    setQuizResults(results);
-    submitResultsMutation.mutate(results);
-    setShowResults(true);
   };
 
   const resetQuiz = () => {
